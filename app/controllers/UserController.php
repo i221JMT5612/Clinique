@@ -17,6 +17,24 @@ class UserController {
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getUserById($id) {
+        return $this->user->findById($id);
+    }
+    
+    public function getAllUsers($role = null) {
+        $query = 'SELECT * FROM users';
+        if ($role) {
+            $query .= ' WHERE role = :role';
+        }
+        $stmt = $this->db->prepare($query);
+        if ($role) {
+            $stmt->bindParam(':role', $role);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
     public function createUser($name, $email, $password, $role) {
         $existingUser = $this->user->findByEmail($email);
         if ($existingUser) {
@@ -60,9 +78,3 @@ class UserController {
         }
     }
 }
-
-//$controller = new UserController();
-//$controller->createUser('John Doe', 'john@example.com', 'password123', 'patient');
-//$controller->listUsers();
-//$controller->updateUser(1, 'John Smith', 'johnsmith@example.com', 'newpassword123', 'medecin');
-//$controller->deleteUser(1);

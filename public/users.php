@@ -9,6 +9,11 @@ $users = $controller->listUsers(); // Récupère la liste des utilisateurs
 ?>
 
 <h2>Liste des Utilisateurs</h2>
+<nav>
+        <ul>
+            <li><a href="create_user.php?action=create">Ajouter un utilisateur</a></li>
+        </ul>
+    </nav>
 <table border="1">
     <thead>
         <tr>
