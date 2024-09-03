@@ -77,9 +77,35 @@ class AppointmentController {
         return $this->appointment->getStatsBySpeciality();
     }
 
-    public function searchAppointments($criter) {
+    /*public function searchAppointments($criter) {
         return $this->appointment->searchAppointments($criter);
+    }*/
+    public function searchAppointments($criteria) {
+        $query = "SELECT * FROM appointments WHERE 1=1";
+        
+        if (!empty($criteria['patient_id'])) {
+            $query .= " AND patient_id = :patient_id";
+        }
+        
+        if (!empty($criteria['doctor_id'])) {
+            $query .= " AND doctor_id = :doctor_id";
+        }
+        
+        $stmt = $this->db->prepare($query);
+        
+        // Bind parameters only if they are present in the criteria
+        if (!empty($criteria['patient_id'])) {
+            $stmt->bindParam(':patient_id', $criteria['patient_id'], PDO::PARAM_INT);
+        }
+        
+        if (!empty($criteria['doctor_id'])) {
+            $stmt->bindParam(':doctor_id', $criteria['doctor_id'], PDO::PARAM_INT);
+        }
+        
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 
     public function getStatsByMonth() {
         return $this->appointment->getStatsByMonth();

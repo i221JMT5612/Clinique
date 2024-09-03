@@ -51,25 +51,20 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="about.html" class="nav-item nav-link">About</a>
-                <a href="service.html" class="nav-item nav-link">Service</a>
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                    <div class="dropdown-menu rounded-0 rounded-bottom m-0">
-                        <a href="feature.html" class="dropdown-item">Feature</a>
-                        <a href="team.html" class="dropdown-item">Our Doctor</a>
-                        <a href="appointment.html" class="dropdown-item">Appointment</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="404.html" class="dropdown-item">404 Page</a>
-                    </div>
-                </div>
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="index.php" class="nav-item nav-link active">Home</a>
+                <a href="users.php" class="nav-item nav-link">Utilisateur</a>
+                <a href="statistiques.php" class="nav-item nav-link">Statistique</a>
+                <a href="recherches.php" class="nav-item nav-link">Recherche</a>
             </div>
-            <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Appointment<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
     <!-- Navbar End -->
+
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeIn;">
+        <div class="container py-5">
+            <div style="margin-bottom: 150px;"></div>
+        </div>
+    </div>
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
