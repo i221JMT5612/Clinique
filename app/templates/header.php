@@ -17,12 +17,12 @@
                 <!-- Section Administrateur -->
                 <li><a href="users.php">Gestion des Utilisateurs</a></li>
                 <li><a href="consultations.php">Gestion des Consultations</a></li>
-                <li><a href="medical_records.php">Gestion des Dossiers Médicaux</a></li>
-                <li><a href="stats.php">Statistiques</a></li>
+                <li><a href="statistiques.php">Statistiques</a></li>
+                <li><a href="recherches.php">Recherches</a></li>
                 <li></li>
                 <!-- Section Médecin -->
                 <li><a href="admin_appointments.php">Gestion des Rendez-vous "medecin"</a></li>
-                <li><a href="patient_records.php">Dossiers des Patients</a></li>
+                <li><a href="medical_records.php">Gestion des Dossiers Médicaux</a></li>
                 <li></li>
                 <!-- Section Patient -->
                 <li><a href="patient_appointments.php">Mes Rendez-vous "patient"</a></li>

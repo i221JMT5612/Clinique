@@ -1,6 +1,6 @@
 <?php
-require_once '../config/database.php';
-require_once '../app/models/Patient.php';
+require_once 'C:\xampp\htdocs\Clinique\config\database.php';
+require_once 'C:\xampp\htdocs\Clinique\app\models\Patient.php';
 
 class PatientController {
     private $db;
@@ -15,7 +15,6 @@ class PatientController {
     public function listPatients() {
         $result = $this->patient->read();
         $patients = $result->fetchAll(PDO::FETCH_ASSOC);
-
         foreach ($patients as $patient) {
             echo 'Name: ' . $patient['name'] . ' | Email: ' . $patient['email'] . '<br>';
         }
@@ -24,7 +23,6 @@ class PatientController {
     public function createPatient($name, $email) {
         $this->patient->name = $name;
         $this->patient->email = $email;
-
         if ($this->patient->create()) {
             echo "Patient created successfully.";
         } else {
@@ -36,7 +34,6 @@ class PatientController {
         $this->patient->id = $id;
         $this->patient->name = $name;
         $this->patient->email = $email;
-
         if ($this->patient->update()) {
             echo "Patient updated successfully.";
         } else {
@@ -46,7 +43,6 @@ class PatientController {
 
     public function deletePatient($id) {
         $this->patient->id = $id;
-
         if ($this->patient->delete()) {
             echo "Patient deleted successfully.";
         } else {
@@ -57,9 +53,25 @@ class PatientController {
     public function searchPatients($keyword) {
         $result = $this->patient->search($keyword);
         $patients = $result->fetchAll(PDO::FETCH_ASSOC);
-
         foreach ($patients as $patient) {
             echo 'Name: ' . $patient['name'] . ' | Email: ' . $patient['email'] . '<br>';
         }
+    }
+
+    public function searchAndSortPatients($criteria) {
+        return $this->patient->searchAndSort($criteria);
+    }
+
+    public function getPatientsCountByMonth() {
+        return $this->patient->getCountByMonth();
+    }
+
+    public function getPatientById($id) {
+        $query = "SELECT * FROM patients WHERE id = :id LIMIT 0,1";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();        
+        $patient = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $patient;
     }
 }

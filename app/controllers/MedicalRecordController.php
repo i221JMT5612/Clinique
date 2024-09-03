@@ -1,5 +1,5 @@
 <?php
-require_once '../app/models/MedicalRecord.php';
+require_once 'C:\xampp\htdocs\Clinique\app\models\MedicalRecord.php';
 
 class MedicalRecordController {
     private $db;
@@ -14,7 +14,7 @@ class MedicalRecordController {
         return $this->record->read();
     }
 
-    public function createRecord($patient_id, $doctor_id, $diagnosis, $treatment) {
+    /*public function createRecord($patient_id, $doctor_id, $diagnosis, $treatment) {
         $this->record->patient_id = $patient_id;
         $this->record->doctor_id = $doctor_id;
         $this->record->diagnosis = $diagnosis;
@@ -25,6 +25,20 @@ class MedicalRecordController {
         } else {
             return false;
         }
+    }*/
+
+    public function createRecord($patient_id, $doctor_id, $diagnosis, $treatment) {
+        $medicalRecord = new MedicalRecord($this->db);
+        try {
+            if ($medicalRecord->create($patient_id, $doctor_id, $diagnosis, $treatment)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
     }
 
     public function updateRecord($id, $patient_id, $doctor_id, $diagnosis, $treatment) {
@@ -33,7 +47,6 @@ class MedicalRecordController {
         $this->record->doctor_id = $doctor_id;
         $this->record->diagnosis = $diagnosis;
         $this->record->treatment = $treatment;
-
         if ($this->record->update()) {
             return true;
         } else {
@@ -43,7 +56,6 @@ class MedicalRecordController {
 
     public function deleteRecord($id) {
         $this->record->id = $id;
-
         if ($this->record->delete()) {
             return true;
         } else {

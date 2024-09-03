@@ -1,47 +1,26 @@
 <?php
-require_once '../config/database.php';
-require_once '../app/models/Appointment.php';
+require_once 'C:\xampp\htdocs\Clinique\config\database.php';
+require_once 'C:\xampp\htdocs\Clinique\app\models\Appointment.php';
 
 class AppointmentController {
     private $appointment;
+    private $db;
 
     public function __construct() {
         $database = new Database();
-        $db = $database->connect();
-        $this->appointment = new Appointment($db);
+        $this->db = $database->connect();
+        $this->appointment = new Appointment($this->db);
     }
-
-    /*public function listAppointments() {
-        $result = $this->appointment->read();
-        $appointments = $result->fetchAll(PDO::FETCH_ASSOC);
-
-        if ($appointments) {
-            foreach ($appointments as $appointment) {
-                echo "<tr>";
-                echo "<td>{$appointment['id']}</td>";
-                echo "<td>{$appointment['patient_id']}</td>";
-                echo "<td>{$appointment['doctor_id']}</td>";
-                echo "<td>{$appointment['appointment_date']}</td>";
-                echo "<td>{$appointment['status']}</td>";
-                echo "<td><a href='update_appointment.php?id={$appointment['id']}'>Modifier</a> <a href='delete_appointment.php?id={$appointment['id']}' onclick='return confirm(\"Êtes-vous sûr de vouloir supprimer ce rendez-vous ?\");'>Supprimer</a></td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr><td colspan='6'>Aucun rendez-vous trouvé.</td></tr>";
-        }
-    }*/
 
     public function listAppointments() {
         $result = $this->appointment->read();
         return $result->fetchAll(PDO::FETCH_ASSOC);
-    }
-    
+    }    
 
-    public function createAppointment($patient_id, $doctor_id, $appointment_date, $status) {
+    public function createAppointment($patient_id, $doctor_id, $appointment_date) {
         $this->appointment->patient_id = $patient_id;
         $this->appointment->doctor_id = $doctor_id;
         $this->appointment->appointment_date = $appointment_date;
-        $this->appointment->status = $status;
 
         if ($this->appointment->create()) {
             echo "Rendez-vous créé avec succès.";
@@ -50,12 +29,11 @@ class AppointmentController {
         }
     }
 
-    public function updateAppointment($id, $patient_id, $doctor_id, $appointment_date, $status) {
+    public function updateAppointment($id, $patient_id, $doctor_id, $appointment_date) {
         $this->appointment->id = $id;
         $this->appointment->patient_id = $patient_id;
         $this->appointment->doctor_id = $doctor_id;
         $this->appointment->appointment_date = $appointment_date;
-        $this->appointment->status = $status;
 
         if ($this->appointment->update()) {
             echo "Rendez-vous mis à jour avec succès.";
@@ -80,7 +58,34 @@ class AppointmentController {
     }
 
     public function getAppointmentsByPatientId($patient_id) {
-        $this->appointment->patient_id = $patient_id;
-        return $this->appointment->findByPatientId();
+        $query = "SELECT * FROM appointments WHERE patient_id = :patient_id AND appointment_date > NOW() ORDER BY appointment_date ASC";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':patient_id', $patient_id);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getPastAppointmentsByPatientId($patient_id) {
+        return $this->appointment->findPastByPatientId($patient_id);
+    }
+
+    public function sortAppointments($appointments, $sortBy) {
+        return $this->appointment->sortAppointments($appointments, $sortBy);
+    }
+
+    public function getStatsBySpeciality() {
+        return $this->appointment->getStatsBySpeciality();
+    }
+
+    public function searchAppointments($criter) {
+        return $this->appointment->searchAppointments($criter);
+    }
+
+    public function getStatsByMonth() {
+        return $this->appointment->getStatsByMonth();
+    }
+    
+    public function findByPatientId($patientId) {
+        return $this->appointment->findByPatientId($patientId);
     }
 }

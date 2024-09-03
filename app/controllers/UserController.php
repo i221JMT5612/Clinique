@@ -1,6 +1,6 @@
 <?php
-require_once '../config/database.php';
-require_once '../app/models/User.php';
+require_once 'C:\xampp\htdocs\Clinique\config\database.php';
+require_once 'C:\xampp\htdocs\Clinique\app\models\User.php';
 
 class UserController {
     private $db;
@@ -34,19 +34,16 @@ class UserController {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
-
     public function createUser($name, $email, $password, $role) {
         $existingUser = $this->user->findByEmail($email);
         if ($existingUser) {
             echo "L'email est déjà utilisé.";
             return false;
         }
-        
         $this->user->name = $name;
         $this->user->email = $email;
         $this->user->password = $password;
         $this->user->role = $role;
-
         if ($this->user->create()) {
             echo "Utilisateur créé avec succès.";
         } else {
@@ -60,7 +57,6 @@ class UserController {
         $this->user->email = $email;
         $this->user->password = $password;
         $this->user->role = $role;
-
         if ($this->user->update()) {
             echo "Utilisateur mis à jour avec succès.";
         } else {
@@ -70,7 +66,6 @@ class UserController {
 
     public function deleteUser($id) {
         $this->user->id = $id;
-
         if ($this->user->delete()) {
             echo "Utilisateur supprimé avec succès.";
         } else {
